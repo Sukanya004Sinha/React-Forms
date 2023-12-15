@@ -6,19 +6,28 @@ type FormValues = {
   studentname: string;
   email: string;
   regno: string;
+  social : {
+    twitter: string
+    facebook : string
+  }
 };
 export const StudentForm = () => {
   const form = useForm<FormValues>({
-    defaultValues: async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users/1"
-      );
-      const data = await response.json();
-      return {
+    defaultValues: {
+    // defaultValues: async () => {
+    //   const response = await fetch(
+    //     "https://jsonplaceholder.typicode.com/users/1"
+    //   );
+    //   const data = await response.json();
+    //   return {
         studentname: "Batman",
-        email: data.email,
+        email: "example@example.com",
         regno: "123s",
-      };
+        social: {
+          twitter: "twitterprofile",
+          facebook: "facebookprofile",
+        }
+      // };
     },
   });
   const { register, control, handleSubmit, formState } = form;
@@ -79,20 +88,19 @@ export const StudentForm = () => {
             })}
           />
         </div>
+      
         <div className="form-control">
-          <p className="error">{errors.email?.message}</p>
-          <label htmlFor="regno">Registration number</label>
+          <label htmlFor="regno">Twitter</label>
           <input
             type="text"
-            id="regno"
-            {...register("regno", {
-              required: {
-                value: true,
-                message: "Registration number is required",
-              },
+            id="twitter"
+            {...register("social.twitter", {
             })}
           ></input>
-          <p className="error">{errors.regno?.message}</p>
+        </div>
+        <div className="form-control">
+          <label htmlFor="facebook">Facebook</label>
+          <input type="text" id="facebook" {...register("social.facebook")}/>
         </div>
         <button>Submit</button>
       </form>
