@@ -1,5 +1,6 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import axios from "axios";
 let renderCount = 0;
 
 type FormValues = {
@@ -49,8 +50,24 @@ export const StudentForm = () => {
     control,
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async(data: FormValues) => {
     console.log("Form submitted", data);
+    const formData = {
+      name : data.studentname,
+      age: data.age,
+      email: data.email
+    }
+    const response = await axios({ 
+      method: "post",
+      url: "http://localhost:8000/user",
+      data: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json"
+
+      }
+
+    })
+    console.log("response",response)
   };
 
   renderCount++;
